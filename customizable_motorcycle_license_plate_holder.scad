@@ -1,10 +1,15 @@
+use <mandalorexpand.ttf>
+use <mandalore.ttf>
+
 // Customizable section
 
-top_text = "Customizable";
-top_text_font_size = 13;
+top_text = "One does not speak unless one knows";
+top_text_font_size = 8;
+top_text_font = "Mandalore";
 
-bottom_text = "This is The Way";
-bottom_text_font_size = 12;
+bottom_text = "THIS IS THE WAY";
+bottom_text_font_size = 14;
+bottom_text_font = "Mandalore Expanded";
 
 module art(){
     scale(0.17)import("mythosaur_centered.stl");
@@ -14,7 +19,7 @@ module art(){
 spacing = 1.1; //[1.0:Original Size, 1.1:1.1x spacing, 1.2:1.2x spacing, 1.3:1.3x spacing]
 
 // How high to raise up the text, in mm
-text_height = 2;
+text_height = 0.6;
 
 
 /* [Hidden] */
@@ -113,7 +118,7 @@ module open_plate_area() {
 module top_text() {
         translate([border_distance_x / 2, border_distance_y - (top_border / 2), total_height]) {
                 linear_extrude(text_height) {
-                    text(top_text, halign = "center", valign = "center", size=top_text_font_size, spacing=spacing);
+                    text(top_text, halign = "center", valign = "center", size=top_text_font_size, spacing=spacing,font=top_text_font);
                 }
         }
 }
@@ -121,9 +126,27 @@ module top_text() {
 module bottom_text() {
         translate([border_distance_x / 2, bottom_border / 2, total_height]) {
                 linear_extrude(text_height) {
-                    text(bottom_text, halign = "center", valign = "center", size=bottom_text_font_size, spacing = spacing);
+                    text(bottom_text, halign = "center", valign = "center", size=bottom_text_font_size, spacing = spacing, font=bottom_text_font);
                 }
         }
+}
+
+module frame(){
+    difference() {
+        union() {
+            difference() {
+                // main body
+                border(border_distance_x, border_distance_y, total_height, 0);
+                open_plate_area();
+            }
+            difference() {
+                mounting_screw_holes_border();
+            }         
+        }
+        // clear out room for screws
+        mounting_screw_holes();
+       
+    }
 }
 
 
@@ -131,19 +154,4 @@ module bottom_text() {
 top_text();
 bottom_text();
 place_art();
-
-difference() {
-    union() {
-        difference() {
-            // main body
-            border(border_distance_x, border_distance_y, total_height, 0);
-            open_plate_area();
-        }
-        difference() {
-            mounting_screw_holes_border();
-        }         
-    }
-    // clear out room for screws
-    mounting_screw_holes();
-   
-}
+color("black")frame();
