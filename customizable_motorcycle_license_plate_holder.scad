@@ -15,6 +15,8 @@ module art(){
     scale(0.17)import("mythosaur_centered.stl");
 }
 
+export_part=2; //[1:frame,2:text]
+
 // Multiplier for extra space around each text character; slightly more space should prevent stringing and make text easier to paint. If you want to fit more text, go down to 1.0
 spacing = 1.1; //[1.0:Original Size, 1.1:1.1x spacing, 1.2:1.2x spacing, 1.3:1.3x spacing]
 
@@ -150,8 +152,16 @@ module frame(){
 }
 
 
+if (export_part==1){
+#top_text();
+#bottom_text();
+#place_art();
+color("black")frame();
+}
 
+if (export_part==2){
 top_text();
 bottom_text();
 place_art();
-color("black")frame();
+#color("black")frame();
+}
